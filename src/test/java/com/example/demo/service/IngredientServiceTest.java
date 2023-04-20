@@ -82,16 +82,15 @@ class IngredientServiceTest {
 
     @Test
     void update() {
-        // TODO
-    }
+        // Arrange
+        ArgumentCaptor<IngredientEntity> captor = ArgumentCaptor.forClass(IngredientEntity.class);
+        Mockito.when(repository.save(captor.capture())).thenReturn(new IngredientEntity());
 
-    @Test
-    void getIngredient() {
-        // How to create an optional
-        Optional<String> stringOptional = Optional.of("Mascarpone");
-        // Create an empty optional
-        Optional<String> emptyOptional = Optional.empty();
+        // Act
+        service.update(5, "Mascarpone");
 
-        // TODO
+        IngredientEntity captorValue = captor.getValue();
+        assertEquals("Mascarpone", captorValue.getName());
+        assertEquals(5, captorValue.getId());
     }
 }
