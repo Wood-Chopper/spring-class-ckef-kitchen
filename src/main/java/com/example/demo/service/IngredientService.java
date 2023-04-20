@@ -11,11 +11,11 @@ public class IngredientService {
 
     private Map<Integer, String> ingredients = new HashMap<>();
 
-    private int lastId = 0;
+    private int nextId = 1;
 
     public int addIngredient(String ingredient) {
-        int id = lastId;
-        lastId = lastId + 1;
+        int id = nextId;
+        nextId = nextId + 1;
 
         ingredients.put(id, ingredient);
 
@@ -28,5 +28,13 @@ public class IngredientService {
 
     public String getIngredient(int id) {
         return ingredients.get(id);
+    }
+
+    public void update(int id, String name) {
+        ingredients.put(id, name);
+    }
+
+    public void delete(int id) {
+        ingredients.remove(id);
     }
 }

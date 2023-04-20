@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloWorld {
     @GetMapping
     public String helloworld() {
-        return "Hello world!";
+        return "Hello world 4!";
     }
 
     @GetMapping("recipe")
