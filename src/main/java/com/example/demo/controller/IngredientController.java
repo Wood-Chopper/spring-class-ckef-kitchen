@@ -34,7 +34,8 @@ public class IngredientController {
     }
 
     @PutMapping("{id}")
-    public void updateIngredient(@PathVariable("id") int id, @RequestBody IngredientRequestDto ingredientRequestDto) {
+    public void updateIngredient(@PathVariable("id") int id,
+         @RequestBody IngredientRequestDto ingredientRequestDto) {
         ingredientService.update(id, ingredientRequestDto.getName());
     }
 
