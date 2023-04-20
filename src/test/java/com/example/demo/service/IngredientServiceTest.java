@@ -9,8 +9,7 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -49,6 +48,20 @@ class IngredientServiceTest {
 
         // Assert
         assertEquals("Egg", ingredient);
+    }
+
+    @Test
+    void getIngredient_notFound() {
+        // Arrange
+        Mockito
+                .when(repository.findById(anyInt()))
+                .thenReturn(Optional.empty());
+
+        // Act
+        String ingredient = service.getIngredient(5);
+
+        // Assert
+        assertNull(ingredient);
     }
 
     @Test
