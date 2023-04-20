@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.IngredientDto;
 import com.example.demo.entity.IngredientEntity;
 import com.example.demo.repository.IngredientRepository;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 class IngredientServiceTest {
 
-    private IngredientRepository ingredientRepository = Mockito.mock(IngredientRepository.class);
-    private IngredientService service = new IngredientService(ingredientRepository);
+    private IngredientRepository repository = Mockito.mock(IngredientRepository.class);
+    private IngredientService service = new IngredientService(repository);
 
     @Test
     void addIngredient() {
@@ -23,7 +26,7 @@ class IngredientServiceTest {
         IngredientEntity saved = new IngredientEntity();
         saved.setId(5);
         ArgumentCaptor<IngredientEntity> captor = ArgumentCaptor.forClass(IngredientEntity.class);
-        Mockito.when(ingredientRepository.save(captor.capture())).thenReturn(saved);
+        Mockito.when(repository.save(captor.capture())).thenReturn(saved);
 
         // Act
         int id = service.addIngredient(ingredient);
@@ -31,6 +34,37 @@ class IngredientServiceTest {
         // Assert
         assertTrue(id > 0);
         assertEquals("Mascarpone", captor.getValue().getName());
+    }
+
+    @Test
+    void getIngredient_isFound() {
+        // Arrange
+        IngredientEntity entity = new IngredientEntity("Egg");
+        Mockito
+                .when(repository.findById(anyInt())) // capture inputs
+                .thenReturn(Optional.of(entity)); // fake return value
+
+        // Act
+        String ingredient = service.getIngredient(1);
+
+        // Assert
+        assertEquals("Egg", ingredient);
+    }
+
+    @Test
+    void getIngredient_idIsUsed() {
+        // Arrange
+        IngredientEntity entity = new IngredientEntity("Egg");
+        ArgumentCaptor<Integer> idCaptor = ArgumentCaptor.forClass(Integer.class);
+        Mockito
+                .when(repository.findById(idCaptor.capture())) // capture inputs
+                .thenReturn(Optional.of(entity)); // fake return value
+
+        // Act
+        String ingredient = service.getIngredient(5);
+
+        // Assert
+        assertEquals(5, idCaptor.getValue());
     }
 
     @Test
