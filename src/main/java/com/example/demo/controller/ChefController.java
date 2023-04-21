@@ -35,6 +35,12 @@ public class ChefController {
         return gordonRamsay;
     }
 
+    @PostMapping("{id}/recipes")
+    public int addRecipe(@PathVariable("id") int chefId,
+                         @RequestBody RecipeRequestDto recipeRequestDto) {
+        return chefService.addRecipeToChef(chefId, recipeRequestDto.getName());
+    }
+
     private RecipeDto getRecipe() {
         RecipeDto recipeDto = new RecipeDto("Tiramisu");
 

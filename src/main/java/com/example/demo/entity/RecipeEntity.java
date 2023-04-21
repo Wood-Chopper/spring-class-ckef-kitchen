@@ -2,10 +2,12 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "recipe")
+@NoArgsConstructor
 public class RecipeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +18,8 @@ public class RecipeEntity {
 
     @ManyToOne
     private ChefEntity chef;
+
+    public RecipeEntity(String name) {
+        this.name = name;
+    }
 }
