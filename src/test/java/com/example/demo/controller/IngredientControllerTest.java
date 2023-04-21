@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,11 +41,12 @@ class IngredientControllerTest {
         IngredientRequestDto ingredientRequestDto = new IngredientRequestDto();
         ingredientRequestDto.setName("Mascarpone");
         String content = objectMapper.writeValueAsString(ingredientRequestDto);
+
         // Act
-        byte[] result = mockMvc.perform(post("/ingredients")
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+        MockHttpServletRequestBuilder requestBuilder = post("/ingredients")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON);
+        byte[] result = mockMvc.perform(requestBuilder)
                 .andReturn()
                 .getResponse()
                 .getContentAsByteArray();
