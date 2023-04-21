@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ChefDto;
+import com.example.demo.dto.IngredientDto;
 import com.example.demo.dto.RecipeDto;
 import com.example.demo.entity.ChefEntity;
 import com.example.demo.entity.RecipeEntity;
@@ -42,7 +43,14 @@ public class ChefService {
     private ChefDto mapChef(ChefEntity entity) {
         ChefDto chefDto = new ChefDto(entity.getName());
         entity.getRecipes().forEach(recipeEntity -> {
-            chefDto.addRecipe(new RecipeDto(recipeEntity.getName()));
+            RecipeDto recipe = new RecipeDto(recipeEntity.getName());
+
+            recipeEntity.getQuantities().forEach(qu -> {
+                IngredientDto ingredientDto = new IngredientDto(qu.getIngredient().getName());
+                recipe.addQuantity(ingredientDto, qu.getQuantity(), qu.getUnit());
+            });
+
+            chefDto.addRecipe(recipe);
         });
         return chefDto;
     }

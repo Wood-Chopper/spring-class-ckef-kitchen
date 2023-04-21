@@ -1,0 +1,9 @@
+spring:
+   datasource:
+     url: jdbc:h2:mem:testdb
+   jpa:
+     hibernate:
+       ddl-auto: create-drop
+   h2:
+     console:
+       enabled: false
