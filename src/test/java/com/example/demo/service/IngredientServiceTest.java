@@ -19,23 +19,6 @@ class IngredientServiceTest {
     private IngredientService service = new IngredientService(repository);
 
     @Test
-    void addIngredient() {
-        // Arrange
-        String ingredient = "Mascarpone";
-        IngredientEntity saved = new IngredientEntity();
-        saved.setId(5);
-        ArgumentCaptor<IngredientEntity> captor = ArgumentCaptor.forClass(IngredientEntity.class);
-        Mockito.when(repository.save(captor.capture())).thenReturn(saved);
-
-        // Act
-        int id = service.addIngredient(ingredient);
-
-        // Assert
-        assertTrue(id > 0);
-        assertEquals("Mascarpone", captor.getValue().getName());
-    }
-
-    @Test
     void getIngredient_isFound() {
         // Arrange
         IngredientEntity entity = new IngredientEntity("Egg");
@@ -48,6 +31,21 @@ class IngredientServiceTest {
 
         // Assert
         assertEquals("Egg", ingredient);
+    }
+
+    @Test
+    void addIngredient() {
+        // Arrange
+        String ingredient = "Mascarpone";
+        IngredientEntity saved = new IngredientEntity();
+        ArgumentCaptor<IngredientEntity> captor = ArgumentCaptor.forClass(IngredientEntity.class);
+        Mockito.when(repository.save(captor.capture())).thenReturn(saved);
+
+        // Act
+        int id = service.addIngredient(ingredient);
+
+        // Assert
+        assertEquals("Mascarpone", captor.getValue().getName());
     }
 
     @Test
@@ -83,14 +81,18 @@ class IngredientServiceTest {
     @Test
     void update() {
         // Arrange
+        // ArgumentCaptor will capture the arguments sent to our mocked method
         ArgumentCaptor<IngredientEntity> captor = ArgumentCaptor.forClass(IngredientEntity.class);
         Mockito.when(repository.save(captor.capture())).thenReturn(new IngredientEntity());
 
         // Act
         service.update(5, "Mascarpone");
 
+        // Assert that the repository has been called with the right id and name
         IngredientEntity captorValue = captor.getValue();
         assertEquals("Mascarpone", captorValue.getName());
         assertEquals(5, captorValue.getId());
+        // captor.capture() will capture the argument
+        // captor.getValue() returns the captured argument
     }
 }

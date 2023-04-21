@@ -1,16 +1,28 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ChefDto;
-import com.example.demo.dto.IngredientDto;
-import com.example.demo.dto.KitchenDto;
-import com.example.demo.dto.RecipeDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.dto.*;
+import com.example.demo.service.ChefService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("chef")
+@RequestMapping("chefs")
 public class ChefController {
+
+    private ChefService chefService;
+
+    public ChefController(ChefService chefService) {
+        this.chefService = chefService;
+    }
+
+    @PostMapping
+    public int postChef(@RequestBody ChefRequestDto chefRequestDto) {
+        return chefService.addChef(chefRequestDto.getName());
+    }
+
+    @GetMapping("{id}")
+    public ChefDto getChefGivenId(@PathVariable("id") int id) {
+        return chefService.getChef(id);
+    }
 
     @GetMapping
     public ChefDto getChef() {

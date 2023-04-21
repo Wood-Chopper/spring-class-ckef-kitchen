@@ -13,13 +13,13 @@ class CalculatorServiceTest {
 
     @Test
     void sumList() {
-        // Arrange
+        // Arrange the data of the test
         List<Integer> integers = List.of(1, 2, 3, 4);
 
-        // Act
+        // Act, execute the method call
         int sum = service.sumList(integers);
 
-        // Assert
+        // Assert the result
         assertEquals(10, sum);
     }
 

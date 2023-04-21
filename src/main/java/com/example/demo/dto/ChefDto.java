@@ -13,6 +13,10 @@ public class ChefDto {
     private KitchenDto kitchen;
     private List<RecipeDto> recipes = new ArrayList<>();
 
+    public ChefDto(String name) {
+        this.name = name;
+    }
+
     public ChefDto(String name, int stars) {
         this.name = name;
         this.stars = stars;
